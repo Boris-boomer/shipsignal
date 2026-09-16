@@ -6,28 +6,14 @@
 
 从「我有个想法」到「这件事该不该继续」——每一步决定，都有据可查。
 
----
+[⬇️ 下载 Windows 版](https://github.com/Boris-boomer/shipsignal/releases/latest) · [⭐ Star](https://github.com/Boris-boomer/shipsignal) · [🐛 反馈](https://github.com/Boris-boomer/shipsignal/issues)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-ff69b4?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-0.1.0-9b59b6?style=for-the-badge)](https://github.com/Boris-boomer/shipsignal/releases)
 [![Stars](https://img.shields.io/github/stars/Boris-boomer/shipsignal?style=for-the-badge&color=f1c40f)](https://github.com/Boris-boomer/shipsignal/stargazers)
-[![Forks](https://img.shields.io/github/forks/Boris-boomer/shipsignal?style=for-the-badge&color=1abc9c)](https://github.com/Boris-boomer/shipsignal/network)
+[![Downloads](https://img.shields.io/github/downloads/Boris-boomer/shipsignal/total?style=for-the-badge&color=1abc9c)](https://github.com/Boris-boomer/shipsignal/releases)
 
-[![Tauri](https://img.shields.io/badge/Tauri-2.0-24C8DB?style=for-the-badge&logo=tauri&logoColor=white)](https://tauri.app)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Rust](https://img.shields.io/badge/Rust-stable-000000?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org)
-[![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![SQLite](https://img.shields.io/badge/SQLite-local-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org)
-
-[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/windows)
-[![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos)
-[![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://www.linux.org)
-
-[![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-e74c3c?style=for-the-badge)](https://github.com/Boris-boomer)
-[![Local First](https://img.shields.io/badge/Local-First-6ee7b7?style=for-the-badge)](https://github.com/Boris-boomer/shipsignal)
-[![No Tracking](https://img.shields.io/badge/No-Tracking-8b93a1?style=for-the-badge)](https://github.com/Boris-boomer/shipsignal)
+<img src="docs/screenshots/dashboard.png" width="820" alt="ShipSignal 主界面">
 
 </div>
 
@@ -40,10 +26,8 @@
 ### ⬇️ [**点此下载最新版**](https://github.com/Boris-boomer/shipsignal/releases/latest)
 
 [![Download for Windows](https://img.shields.io/badge/Download-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Boris-boomer/shipsignal/releases/latest)
-[![Latest Release](https://img.shields.io/github/v/release/Boris-boomer/shipsignal?style=for-the-badge&color=9b59b6)](https://github.com/Boris-boomer/shipsignal/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/Boris-boomer/shipsignal/total?style=for-the-badge&color=f1c40f)](https://github.com/Boris-boomer/shipsignal/releases)
 
-**Windows 用户推荐下载 `ShipSignal_0.1.0_x64-setup.exe`**（约 5MB，双击安装即可）
+**Windows 用户下载 `ShipSignal_0.1.0_x64-setup.exe`**（约 5MB，双击安装即可）
 
 </div>
 
@@ -52,7 +36,7 @@
 ## 🤔 你是不是也这样？
 
 - 🤯 想法一堆，落地一个。过俩月回头看，**说不清为什么放弃，也说不清为什么坚持**
-- 🗂️ 数据散落各处：小红书评论、V2EX 回复、微信聊天、Stripe 后台
+- 🗂️ 数据散落各处：小红书评论、社区回复、微信聊天、Stripe 后台
 - 🎲 每次做决定，**凭感觉**。做完了也没留下什么可以复用的东西
 - 📓 用了 Notion、Excel、飞书，记了一堆，**从没回看过第二次**
 
@@ -67,6 +51,26 @@
 不是又一个笔记软件，也不是又一个看板。它只做一件事：
 
 > ### ✨ 让每一个决定，都有据可查 ✨
+
+---
+
+## 📸 截图
+
+### 主界面 · 多个项目一眼看清
+
+<img src="docs/screenshots/dashboard.png" width="820" alt="主界面">
+
+### 信号面板 · 付费信号权重最高
+
+<img src="docs/screenshots/signals.png" width="820" alt="信号面板">
+
+### AI 助手 · 只起草，不替你决定
+
+<img src="docs/screenshots/ai.png" width="820" alt="AI 助手">
+
+### 深色 / 浅色 · 跟随你
+
+<img src="docs/screenshots/theme.png" width="820" alt="深色浅色对比">
 
 ---
 
@@ -123,33 +127,6 @@ AI 只做归纳、总结、起草。**不判断数据真假，不修改任何评
 
 ---
 
-## 🔧 技术栈
-
-| 🧱 层 | ⚙️ 技术 |
-| :--- | :--- |
-| 桌面 | **Tauri 2.0**（Rust + WebView） |
-| 前端 | **React 19** + TypeScript + Vite 6 + Tailwind CSS 4 |
-| 状态 | **Zustand 5** |
-| 存储 | **SQLite** (tauri-plugin-sql) |
-| 后端 | **Rust** |
-
-**📦 打包体积** ~10MB · **⚡ 冷启动** 小于 1 秒
-
----
-
-## 🚀 快速开始
-
-安装依赖：pnpm install
-
-开发模式：pnpm tauri dev
-
-打包发布：pnpm tauri build
-
-**系统要求**：Windows 10+ / macOS 10.15+ / Linux
-**开发环境**：Node 20+ 和 Rust
-
----
-
 ## 🤖 关于 AI
 
 AI 是**可选的**。不配 API Key，其他功能全部照常使用。
@@ -162,6 +139,70 @@ AI 是**可选的**。不配 API Key，其他功能全部照常使用。
 - 📢 起草分发文案
 
 **AI 不参与任何可信度判断。** 所有 AI 生成的内容，你确认后才入库。
+
+---
+
+## ❓ FAQ
+
+**数据存在哪？**
+本地 SQLite，不上传、不注册。文件在你自己的机器上。
+
+**要联网吗？**
+不联网也能用。只有你主动调 AI 时才联网。
+
+**收费吗？**
+免费，开源 MIT，打赏制。没有 Pro 版，没有付费墙，没有订阅。
+
+**AI Key 怎么配？**
+设置页填 OpenAI 兼容服务的 Key（内置 OpenAI / 智谱 / DeepSeek / Kimi / 通义 预设），只存本地。
+
+**为什么付费信号权重最高？**
+点赞、浏览量、注册数都会骗人。付费不会。
+
+**支持 macOS / Linux 吗？**
+代码支持，当前只发布了 Windows 安装包。其他平台可源码编译。
+
+---
+
+## 🚀 快速开始（开发者）
+
+普通用户请直接去 [Releases](https://github.com/Boris-boomer/shipsignal/releases/latest) 下载安装包。以下为源码开发：
+
+```bash
+# 安装依赖
+pnpm install
+
+# 开发模式
+pnpm tauri dev
+
+# 打包发布
+pnpm tauri build
+```
+
+**系统要求**：Windows 10+ / macOS 10.15+ / Linux
+**开发环境**：Node 20+ 和 Rust stable
+
+---
+
+## 🔧 技术栈
+
+[![Tauri](https://img.shields.io/badge/Tauri-2.0-24C8DB?style=for-the-badge&logo=tauri&logoColor=white)](https://tauri.app)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Rust](https://img.shields.io/badge/Rust-stable-000000?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![SQLite](https://img.shields.io/badge/SQLite-local-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org)
+
+| 🧱 层 | ⚙️ 技术 |
+| :--- | :--- |
+| 桌面 | **Tauri 2.0**（Rust + WebView） |
+| 前端 | **React 19** + TypeScript + Vite 6 + Tailwind CSS 4 |
+| 状态 | **Zustand 5** |
+| 存储 | **SQLite** (tauri-plugin-sql) |
+| 后端 | **Rust** |
+
+**📦 安装包体积** ~5MB · **⚡ 冷启动** 小于 1 秒
 
 ---
 
@@ -197,4 +238,3 @@ MIT — 随便用，随便改，随便商用。只求你用得上。
 Made with ❤️ by [Boris-boomer](https://github.com/Boris-boomer)
 
 </div>
-
