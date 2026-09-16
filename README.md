@@ -4,16 +4,16 @@
 
 **独立开发者的决策副驾**
 
-从「我有个想法」到「这件事该不该继续」——每一步决定，都有据可查。
+从「我有个想法」到「这件事该不该继续」——每一个决定都有据可查，每一条记录都指向下一步行动。
 
 [⬇️ 下载 Windows 版](https://github.com/Boris-boomer/shipsignal/releases/latest) · [⭐ Star](https://github.com/Boris-boomer/shipsignal) · [🐛 反馈](https://github.com/Boris-boomer/shipsignal/issues)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-ff69b4?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.1.0-9b59b6?style=for-the-badge)](https://github.com/Boris-boomer/shipsignal/releases)
+[![Version](https://img.shields.io/badge/version-1.1.0-9b59b6?style=for-the-badge)](https://github.com/Boris-boomer/shipsignal/releases)
 [![Stars](https://img.shields.io/github/stars/Boris-boomer/shipsignal?style=for-the-badge&color=f1c40f)](https://github.com/Boris-boomer/shipsignal/stargazers)
 [![Downloads](https://img.shields.io/github/downloads/Boris-boomer/shipsignal/total?style=for-the-badge&color=1abc9c)](https://github.com/Boris-boomer/shipsignal/releases)
 
-<img src="docs/screenshots/dashboard.png" width="820" alt="ShipSignal 主界面">
+<img src="docs/screenshots/today.png" width="820" alt="ShipSignal 今日建议">
 
 </div>
 
@@ -27,7 +27,7 @@
 
 [![Download for Windows](https://img.shields.io/badge/Download-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Boris-boomer/shipsignal/releases/latest)
 
-**Windows 用户下载 `ShipSignal_0.1.0_x64-setup.exe`**（约 5MB，双击安装即可）
+**Windows 用户下载 ShipSignal_1.1.0_x64-setup.exe**（约 5MB，双击安装即可）
 
 </div>
 
@@ -40,25 +40,43 @@
 - 🎲 每次做决定，**凭感觉**。做完了也没留下什么可以复用的东西
 - 📓 用了 Notion、Excel、飞书，记了一堆，**从没回看过第二次**
 
-> **问题不在你不够努力，在于——没有工具帮你把「决策」这件事结构化沉淀下来。**
+> **问题不在你不够努力，在于——没有工具帮你把「决策」这件事结构化沉淀下来，更没人告诉你下一步该干什么。**
 
 ---
 
 ## 🎯 ShipSignal 是干什么的？
 
-一个**本地优先**的桌面工具。把你从产品验证到转化的每个关键判断，变成 **可追溯、可复用、可复利** 的资产。
+一个**本地优先**的桌面工具。把你从产品验证到转化的每个关键判断，变成 **可追溯、可复用、可复利** 的资产，并基于你自己的历史数据，给出下一步行动建议。
 
-不是又一个笔记软件，也不是又一个看板。它只做一件事：
+不是又一个笔记软件，也不是又一个看板。它只做两件事：
 
 > ### ✨ 让每一个决定，都有据可查 ✨
+> ### ✨ 让每一条记录，都指向下一步行动 ✨
+
+---
+
+## 🆕 v1.1 引导层：从「记录」到「引导」
+
+v1.0 让你把决策记下来。v1.1 让这些记录自己开口，告诉你下一步做什么。
+
+**核心变化：工具不再只是被动等你记录，而是主动给出建议。**
+
+| | |
+| :---: | :--- |
+| 📊 | **信号模式识别** — 从你的历史信号里自动识别四种模式：渠道深度、信号聚集、信号沉默、付费前兆。**全部确定性算法，AI 不参与判断。** |
+| 🎯 | **行动卡片** — 打开工具首屏是「今日建议」，不是仪表盘。每天一条具体可执行的动作。 |
+| ✍️ | **AI 起草** — 卡片草稿可由 AI 生成，你确认或修改后才使用。AI 只组织语言，不做评价。 |
+| 🌅 | **今日页** — 跨项目聚合，一眼看清今天最值得做的一件事。 |
+
+**记录是燃料，引导是引擎。** 建议完全来自你自己的历史数据，不是通用模板。
 
 ---
 
 ## 📸 截图
 
-### 主界面 · 多个项目一眼看清
+### 今日建议 · 打开就知道下一步
 
-<img src="docs/screenshots/dashboard.png" width="820" alt="主界面">
+<img src="docs/screenshots/today.png" width="820" alt="今日建议">
 
 ### 信号面板 · 付费信号权重最高
 
@@ -89,11 +107,13 @@
 | | | |
 | :---: | :--- | :--- |
 | 📡 | **信号记录** | 每条信号都带「来源可验证性」和「付费标记」。付费信号权重远高于非付费信号。 |
+| 📊 | **模式识别** | 自动识别渠道深度、信号聚集、信号沉默、付费前兆。确定性算法，结论可追溯。 |
+| 🎯 | **今日建议** | 每天一条具体动作，从你自己的记录里生成，不是模板。 |
 | 📋 | **决策日志** | 记录你基于哪些信号做了什么决定。后续可以验证对错。 |
 | 💰 | **转化追踪** | 每笔付费都值得记录。多币种，订阅 / 一次性，一目了然。 |
 | 💡 | **学习信号** | 归档项目时，强制提取至少 3 条可迁移的认知。 |
 | ⚓ | **Harbor 停靠港** | 已归档项目不是失败，是资产。 |
-| 🤖 | **AI 助手** | 支持 OpenAI 兼容的所有服务。AI 不参与任何可信度判断。 |
+| 🤖 | **AI 助手** | 支持 OpenAI 兼容的所有服务。AI 不参与任何判断。 |
 
 ---
 
@@ -102,6 +122,8 @@
 ### 🎯 1. 工具只让决策可追溯，不替你做决定
 
 AI 只做归纳、总结、起草。**不判断数据真假，不修改任何评分，不自动归档。**
+
+信号模式的每一个结论，底层都是确定性规则匹配。AI 不参与。
 
 ### 🔒 2. 数据是你的，永远在你自己机器上
 
@@ -137,29 +159,51 @@ AI 是**可选的**。不配 API Key，其他功能全部照常使用。
 - 📋 根据现有信号起草产品定义
 - 💡 总结一个项目的学习信号
 - 📢 起草分发文案
+- ✍️ 为行动卡片起草可直接使用的草稿
 
-**AI 不参与任何可信度判断。** 所有 AI 生成的内容，你确认后才入库。
+**AI 不参与任何可信度判断，也不参与模式识别。** 所有 AI 生成的内容，你确认后才入库。
 
 ---
 
 ## ❓ FAQ
 
 **数据存在哪？**
+
 本地 SQLite，不上传、不注册。文件在你自己的机器上。
 
 **要联网吗？**
+
 不联网也能用。只有你主动调 AI 时才联网。
 
+**今日建议从哪来？**
+
+从你自己记录的信号里来。工具在后台跑确定性算法（渠道深度 / 信号聚集 / 信号沉默 / 付费前兆），识别出的模式决定给什么建议。不是通用模板，也不经过 AI 判断。
+
+**信号模式是怎么算的？**
+
+纯规则匹配，四个维度：
+
+- 渠道深度 — 同渠道的互动是浅层（浏览/点赞）还是深层（追问/邮件/付费）
+- 信号聚集 — 最近 7 天哪些渠道信号密度突然升高
+- 信号沉默 — 哪些渠道超过 14 天无新信号
+- 付费前兆 — 什么类型信号之后最容易出现付费事件
+
+每个结论都能点回原始信号，你能看到「工具为什么这么说」。
+
 **收费吗？**
+
 免费，开源 MIT，打赏制。没有 Pro 版，没有付费墙，没有订阅。
 
 **AI Key 怎么配？**
+
 设置页填 OpenAI 兼容服务的 Key（内置 OpenAI / 智谱 / DeepSeek / Kimi / 通义 预设），只存本地。
 
 **为什么付费信号权重最高？**
+
 点赞、浏览量、注册数都会骗人。付费不会。
 
 **支持 macOS / Linux 吗？**
+
 代码支持，当前只发布了 Windows 安装包。其他平台可源码编译。
 
 ---
@@ -168,16 +212,17 @@ AI 是**可选的**。不配 API Key，其他功能全部照常使用。
 
 普通用户请直接去 [Releases](https://github.com/Boris-boomer/shipsignal/releases/latest) 下载安装包。以下为源码开发：
 
-```bash
-# 安装依赖
-pnpm install
+安装依赖：
 
-# 开发模式
-pnpm tauri dev
+    pnpm install
 
-# 打包发布
-pnpm tauri build
-```
+开发模式：
+
+    pnpm tauri dev
+
+打包发布：
+
+    pnpm tauri build
 
 **系统要求**：Windows 10+ / macOS 10.15+ / Linux
 **开发环境**：Node 20+ 和 Rust stable
