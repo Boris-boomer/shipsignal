@@ -1,64 +1,134 @@
-# ShipSignal
+<div align="center">
 
-为独立开发者提供从产品验证到转化加速的桌面决策辅助工具。
-A desktop decision-assist tool for indie developers - from product validation to conversion acceleration.
+# 📡 ShipSignal
 
-## 核心原则 / Core Principles
+**独立开发者的决策副驾**
 
-1. 工具只让决策可追溯，不替开发者做决定
-2. 付费信号权重远高于非付费信号
-3. 可信度用确定性算法，AI 不参与真假判断
-4. 每次归档强制提取至少 3 条学习信号
-5. 数据本地 SQLite，离线优先
+从「我有个想法」到「这件事该不该继续」——每一步决定，都有据可查。
 
-## 功能 / Features
+---
 
-- 三入口模式：A 有想法 / B 有产品 / C 多产品组合
-- 信号记录：来源可验证性 + 付费标记 + 可信度标注
-- 决策日志：依据追溯 + 结果验证
-- 转化记录：多币种、订阅/一次性
-- 学习信号：验证 / 推翻 / 发现
-- Harbor：已归档项目的停靠港
-- AI 助手：起草、总结、归纳（支持 OpenAI 兼容的所有服务）
-- 中英文界面
-- 深色/浅色主题
-- 系统托盘 + 关闭确认
-- 全局搜索（Ctrl+K）
+[![License: MIT](https://img.shields.io/badge/License-MIT-ff69b4?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-0.1.0-9b59b6?style=for-the-badge)](https://github.com/Boris-boomer/shipsignal/releases)
+[![Stars](https://img.shields.io/github/stars/Boris-boomer/shipsignal?style=for-the-badge&color=f1c40f)](https://github.com/Boris-boomer/shipsignal/stargazers)
+[![Forks](https://img.shields.io/github/forks/Boris-boomer/shipsignal?style=for-the-badge&color=1abc9c)](https://github.com/Boris-boomer/shipsignal/network)
 
-## 技术栈 / Tech Stack
+[![Tauri](https://img.shields.io/badge/Tauri-2.0-24C8DB?style=for-the-badge&logo=tauri&logoColor=white)](https://tauri.app)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Rust](https://img.shields.io/badge/Rust-stable-000000?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![SQLite](https://img.shields.io/badge/SQLite-local-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org)
 
-- 桌面：Tauri 2.0
-- 前端：React 19 + TypeScript + Vite 6 + Tailwind CSS 4
-- 状态：Zustand 5
-- 数据库：SQLite (tauri-plugin-sql)
-- 后端：Rust
+[![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/windows)
+[![Platform](https://img.shields.io/badge/Platform-macOS-000000?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos)
+[![Platform](https://img.shields.io/badge/Platform-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://www.linux.org)
 
-## 开发 / Development
+[![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-e74c3c?style=for-the-badge)](https://github.com/Boris-boomer)
+[![Local First](https://img.shields.io/badge/Local-First-6ee7b7?style=for-the-badge)](https://github.com/Boris-boomer/shipsignal)
+[![No Tracking](https://img.shields.io/badge/No-Tracking-8b93a1?style=for-the-badge)](https://github.com/Boris-boomer/shipsignal)
 
-安装依赖：
+</div>
+
+---
+
+## 🤔 你是不是也这样？
+
+- 🤯 想法一堆，落地一个。过俩月回头看，**说不清为什么放弃，也说不清为什么坚持**
+- 🗂️ 数据散落各处：小红书评论、V2EX 回复、微信聊天、Stripe 后台
+- 🎲 每次做决定，**凭感觉**。做完了也没留下什么可以复用的东西
+- 📓 用了 Notion、Excel、飞书，记了一堆，**从没回看过第二次**
+
+> **问题不在你不够努力，在于——没有工具帮你把「决策」这件事结构化沉淀下来。**
+
+---
+
+## 🎯 ShipSignal 是干什么的？
+
+一个**本地优先**的桌面工具。把你从产品验证到转化的每个关键判断，变成 **可追溯、可复用、可复利** 的资产。
+
+不是又一个笔记软件，也不是又一个看板。它只做一件事：
+
+> ### ✨ 让每一个决定，都有据可查 ✨
+
+---
+
+## 🚪 三个入口，匹配你的当前状态
+
+| 🚪 入口 | 👤 适合 | 🎁 你会得到 |
+| :---: | :--- | :--- |
+| 🅰️ **A** | 有个想法，还没动手 | 痛点 → 验证结果 → 产品定义 |
+| 🅱️ **B** | 有产品，转化难 | 产品状态 → 渠道信号 → 变现匹配 |
+| 🆑 **C** | 多个产品，想系统管理 | 分配原则 → 日落条款 → 定期 review |
+
+---
+
+## ✨ 核心能力
+
+| | | |
+| :---: | :--- | :--- |
+| 📡 | **信号记录** | 每条信号都带「来源可验证性」和「付费标记」。付费信号权重远高于非付费信号。 |
+| 📋 | **决策日志** | 记录你基于哪些信号做了什么决定。后续可以验证对错。 |
+| 💰 | **转化追踪** | 每笔付费都值得记录。多币种，订阅 / 一次性，一目了然。 |
+| 💡 | **学习信号** | 归档项目时，强制提取至少 3 条可迁移的认知。 |
+| ⚓ | **Harbor 停靠港** | 已归档项目不是失败，是资产。 |
+| 🤖 | **AI 助手** | 支持 OpenAI 兼容的所有服务。AI 不参与任何可信度判断。 |
+
+---
+
+## 🛡️ 三条铁律
+
+### 🎯 1. 工具只让决策可追溯，不替你做决定
+
+AI 只做归纳、总结、起草。**不判断数据真假，不修改任何评分，不自动归档。**
+
+### 🔒 2. 数据是你的，永远在你自己机器上
+
+所有内容存在本地 SQLite。不上传、不注册、不联网（除非你主动调 AI）。API Key 只存本地。
+
+### 💎 3. 付费信号是唯一诚实的信号
+
+点赞、浏览量、注册数都会骗人。**付费不会。** 所以我们把付费信号权重拉到最高。
+
+---
+
+## 🎁 一些细节
+
+| | |
+| :---: | :--- |
+| 🌐 | **中英文界面** — 一键切换，全 UI 覆盖 |
+| 🎨 | **深色 / 浅色主题** — 跟随系统或手动切换 |
+| 🔤 | **字体 7 档可调** — 从紧凑到巨大，适合各种视力 |
+| 🖥️ | **系统托盘** — 关闭确认 + 托盘常驻 |
+| 🔍 | **全局搜索** — `Ctrl+K` 跨项目搜信号、决策、学习、转化 |
+| 📥 | **批量导入** — CSV / JSON 一键导入，自动去重 |
+| 📤 | **数据导出** — Markdown 全量导出，JSON 完整备份 |
+
+---
+
+## 🔧 技术栈
+
+| 🧱 层 | ⚙️ 技术 |
+| :--- | :--- |
+| 桌面 | **Tauri 2.0**（Rust + WebView） |
+| 前端 | **React 19** + TypeScript + Vite 6 + Tailwind CSS 4 |
+| 状态 | **Zustand 5** |
+| 存储 | **SQLite** (tauri-plugin-sql) |
+| 后端 | **Rust** |
+
+**📦 打包体积** ~10MB · **⚡ 冷启动** 小于 1 秒
+
+---
+
+## 🚀 快速开始
+
+```bash
+# 安装依赖
 pnpm install
 
-启动开发：
+# 开发模式
 pnpm tauri dev
 
-打包：
+# 打包发布
 pnpm tauri build
-
-## 数据安全 / Data Safety
-
-所有数据存储在本机 SQLite 数据库，不上传任何服务器。
-API Key、Token 等敏感信息仅保存在本地，不会通过网络传输（除非你主动调用 AI）。
-
-## 反馈 / Feedback
-
-- GitHub Issues: https://github.com/Boris-boomer/shipsignal/issues
-- 邮箱: 3090287415@qq.com
-
-## 打赏 / Support
-
-如果 ShipSignal 帮到了你，欢迎在设置页扫码请作者喝杯咖啡。
-完全自愿，不影响任何功能。
-
-## License
-
-MIT
