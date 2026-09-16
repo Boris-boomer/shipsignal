@@ -1,0 +1,1 @@
+ALTER TABLE projects ADD COLUMN sunset_conditions TEXT;
