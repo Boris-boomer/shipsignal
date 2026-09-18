@@ -65,8 +65,8 @@ export const ChannelDistribution = memo(function ChannelDistribution({
           </Pie>
           <Tooltip
             contentStyle={TOOLTIP_STYLE}
-            formatter={(value: number, name: string) => [
-              `${value} 条 (${((value / total) * 100).toFixed(1)}%)`,
+            formatter={(value, name) => [
+              `${value} 条 (${((Number(value) / total) * 100).toFixed(1)}%)`,
               name,
             ]}
           />

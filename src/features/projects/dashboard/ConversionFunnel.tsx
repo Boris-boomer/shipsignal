@@ -78,7 +78,7 @@ export const ConversionFunnel = memo(function ConversionFunnel({
         <Tooltip
           contentStyle={TOOLTIP_STYLE}
           cursor={{ fill: "rgba(99,102,241,0.06)" }}
-          formatter={(value: number) => [`${value} 条`, ""]}
+          formatter={(value) => [`${value} 条`, ""]}
         />
         <Bar
           dataKey="value"
