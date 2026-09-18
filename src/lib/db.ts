@@ -158,18 +158,14 @@ export async function updateProject(
 
 export async function deleteProject(id: string): Promise<void> {
   const db = await getDb();
-  // 显式级联删除子表。不依赖 PRAGMA foreign_keys（它是连接级的，
-  // 连接池里其他连接可能未开启）
   await db.execute("DELETE FROM signals WHERE project_id = $1", [id]);
   await db.execute("DELETE FROM conversions WHERE project_id = $1", [id]);
   await db.execute("DELETE FROM lessons WHERE project_id = $1", [id]);
   await db.execute("DELETE FROM decision_logs WHERE project_id = $1", [id]);
-  // ai_interactions 是 ON DELETE SET NULL，让 project_id 变 null
   await db.execute(
     "UPDATE ai_interactions SET project_id = NULL WHERE project_id = $1",
     [id]
   );
-  // v1.1 引导层子表
   await db.execute("DELETE FROM action_cards WHERE project_id = $1", [id]);
   await db.execute("DELETE FROM signal_patterns WHERE project_id = $1", [id]);
   await db.execute("DELETE FROM projects WHERE id = $1", [id]);
@@ -753,6 +749,15 @@ export async function dumpAllData(): Promise<BackupData> {
 export async function restoreAllData(data: BackupData): Promise<void> {
   const db = await getDb();
 
+  // v1.1 引导层：先删子表，否则 FK 会挡住 projects 的删除
+  await db.execute("DELETE FROM action_cards");
+  await db.execute("DELETE FROM signal_patterns");
+  await db.execute("DELETE FROM cold_start_attempts");
+
+  // ai_interactions 是 ON DELETE SET NULL，先手动置空
+  await db.execute("UPDATE ai_interactions SET project_id = NULL");
+
+  // 核心表
   await db.execute("DELETE FROM decision_logs");
   await db.execute("DELETE FROM lessons");
   await db.execute("DELETE FROM conversions");
@@ -1189,4 +1194,18 @@ export async function updateActionCardDraft(
 ): Promise<void> {
   const db = await getDb();
   await db.execute("UPDATE action_cards SET draft=$1 WHERE id=$2", [draft, id]);
+}
+
+/* ---------------- Dashboard Aggregation (v1.2) ---------------- */
+
+export async function listAllSignals(): Promise<Signal[]> {
+  const db = await getDb();
+  return db.select<Signal[]>("SELECT * FROM signals ORDER BY created_at ASC");
+}
+
+export async function listAllConversions(): Promise<Conversion[]> {
+  const db = await getDb();
+  return db.select<Conversion[]>(
+    "SELECT * FROM conversions ORDER BY created_at ASC"
+  );
 }

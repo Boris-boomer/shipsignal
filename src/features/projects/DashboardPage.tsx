@@ -1,15 +1,50 @@
+import { Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useProjectStore } from "@/stores/projectStore";
 import { Plus, Package, ArrowRight } from "lucide-react";
+import { ChartCard } from "./dashboard/ChartCard";
+import { useDashboardData } from "./dashboard/useDashboardData";
+
+const SignalTimeline = lazy(() =>
+  import("./dashboard/SignalTimeline").then((m) => ({
+    default: m.SignalTimeline,
+  }))
+);
+const ChannelDistribution = lazy(() =>
+  import("./dashboard/ChannelDistribution").then((m) => ({
+    default: m.ChannelDistribution,
+  }))
+);
+const SignalTypeBar = lazy(() =>
+  import("./dashboard/SignalTypeBar").then((m) => ({
+    default: m.SignalTypeBar,
+  }))
+);
+const ConversionFunnel = lazy(() =>
+  import("./dashboard/ConversionFunnel").then((m) => ({
+    default: m.ConversionFunnel,
+  }))
+);
+
+function ChartFallback() {
+  return (
+    <div className="flex h-full items-center justify-center text-xs text-[var(--color-muted)]">
+      …
+    </div>
+  );
+}
 
 export function DashboardPage() {
   const { t } = useTranslation();
   const projects = useProjectStore((s) => s.projects);
   const loading = useProjectStore((s) => s.loading);
+  const { data, loading: chartsLoading } = useDashboardData();
+
+  const hasData = data.totalSignals > 0;
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold text-[var(--color-strong)]">
@@ -27,6 +62,62 @@ export function DashboardPage() {
           {t("dashboard.newProject")}
         </Link>
       </div>
+
+      {!chartsLoading && (
+        <div className="grid grid-cols-2 gap-4">
+          <div className="col-span-2">
+            <ChartCard
+              title={t("dashboard.charts.timeline", "信号时间线")}
+              subtitle={t(
+                "dashboard.charts.timelineSub",
+                "最近 30 天每天新增信号数"
+              )}
+              height={240}
+              empty={!hasData}
+            >
+              <Suspense fallback={<ChartFallback />}>
+                <SignalTimeline data={data.timeline} />
+              </Suspense>
+            </ChartCard>
+          </div>
+
+          <ChartCard
+            title={t("dashboard.charts.channels", "渠道分布")}
+            subtitle={t("dashboard.charts.channelsSub", "信号来自哪里")}
+            empty={!hasData}
+          >
+            <Suspense fallback={<ChartFallback />}>
+              <ChannelDistribution data={data.channels} />
+            </Suspense>
+          </ChartCard>
+
+          <ChartCard
+            title={t("dashboard.charts.types", "信号类型分布")}
+            subtitle={t("dashboard.charts.typesSub", "哪类信号最多")}
+            empty={!hasData}
+          >
+            <Suspense fallback={<ChartFallback />}>
+              <SignalTypeBar data={data.types} />
+            </Suspense>
+          </ChartCard>
+
+          <div className="col-span-2">
+            <ChartCard
+              title={t("dashboard.charts.funnel", "信号可信度漏斗")}
+              subtitle={t(
+                "dashboard.charts.funnelSub",
+                "全部信号 → 中/高可信 → 高可信"
+              )}
+              height={200}
+              empty={!hasData}
+            >
+              <Suspense fallback={<ChartFallback />}>
+                <ConversionFunnel data={data.funnel} />
+              </Suspense>
+            </ChartCard>
+          </div>
+        </div>
+      )}
 
       {loading && projects.length === 0 ? (
         <div className="text-sm text-[var(--color-muted)]">

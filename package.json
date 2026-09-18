@@ -24,6 +24,7 @@
     "react-dom": "^19.0.0",
     "react-i18next": "^17.0.14",
     "react-router-dom": "^7.0.2",
+    "recharts": "^3.10.1",
     "tailwind-merge": "^2.5.4",
     "zustand": "^5.0.1"
   },

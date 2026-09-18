@@ -182,6 +182,14 @@ export const en: Record<ZhKeys, string> = {
   "dashboard.empty.title": "No projects yet",
   "dashboard.empty.description": "Start with one of three entry points",
   "dashboard.empty.action": "Get Started",
+  "dashboard.charts.timeline": "Signal Timeline",
+  "dashboard.charts.timelineSub": "New signals per day, last 30 days",
+  "dashboard.charts.channels": "Channel Distribution",
+  "dashboard.charts.channelsSub": "Where signals come from",
+  "dashboard.charts.types": "Signal Types",
+  "dashboard.charts.typesSub": "Which type is most frequent",
+  "dashboard.charts.funnel": "Confidence Funnel",
+  "dashboard.charts.funnelSub": "All signals → medium/high → high",
 
   // 项目详情
   "project.tab.overview": "Overview",

@@ -173,6 +173,14 @@ export const zh = {
   "dashboard.empty.title": "还没有项目",
   "dashboard.empty.description": "从三种入口之一开始",
   "dashboard.empty.action": "开始",
+  "dashboard.charts.timeline": "信号时间线",
+  "dashboard.charts.timelineSub": "最近 30 天每天新增信号数",
+  "dashboard.charts.channels": "渠道分布",
+  "dashboard.charts.channelsSub": "信号来自哪里",
+  "dashboard.charts.types": "信号类型分布",
+  "dashboard.charts.typesSub": "哪类信号最多",
+  "dashboard.charts.funnel": "信号可信度漏斗",
+  "dashboard.charts.funnelSub": "全部信号 → 中/高可信 → 高可信",
 
   // 项目详情
   "project.tab.overview": "概览",
