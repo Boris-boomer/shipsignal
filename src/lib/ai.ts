@@ -159,7 +159,6 @@ export async function draftModeData(args: DraftModeDataArgs): Promise<string> {
 }
 
 function buildDraftSystemPrompt(mode: Mode, schema: ModeSchemaDef): string {
-  // 把 i18n key 翻译成当前语言，给 AI 看
   const fieldsDesc = schema.sections
     .map((s) => {
       const fields = s.fields
@@ -330,7 +329,6 @@ lesson_type 判定：
     };
   }
 
-  // decision
   return {
     systemPrompt: `${common}
 
@@ -366,5 +364,288 @@ export function extractJson(
     return null;
   } catch {
     return null;
+  }
+}
+
+/* ---------------- 行动卡片起草（v1.1） ---------------- */
+
+export interface DraftActionCardArgs {
+  cardType: string;
+  cardTitle: string;
+  cardBody: string;
+  signalsContext: string;
+  settings: AiSettings;
+  onDelta?: (delta: string) => void;
+}
+
+function buildActionCardSystemPrompt(cardType: string): string {
+  const common = `你是 ShipSignal 的写作助手。
+
+【核心定位】
+用户接下来要执行一个动作，你负责写「用户可以直接拿去用的那段文字」。
+它不是分析，不是建议，不是总结。它是「对外发出的内容」本身。
+
+【硬性规则】
+1. 只输出正文，不要任何标题、解释、前后缀、markdown 标记
+2. 不评价数据，不写「建议」「可以考虑」「总体来看」这类话
+3. 不编造信号中没有的事实、数字、人名、渠道名
+4. 语气自然，不用「您好」「亲」这类客套称呼
+5. 长度控制在该类型要求的范围内，不要凑字数
+6. 语言跟随用户界面的语言`;
+
+  switch (cardType) {
+    case "burst_followup":
+      return `${common}
+
+【产物定义：渠道跟进消息】
+用户要跟进一个最近突然活跃的渠道。
+请写一条对外消息——可以是帖子回复、评论、或私信。
+内容围绕该渠道最近出现的信号主题，语气自然，不像推销。
+
+长度：2-4 句话。`;
+
+    case "payment_prepare":
+      return `${common}
+
+【产物定义：转化触达文案】
+用户准备发起一次转化动作。
+请写一段可用于触达的话术或 offer 文案——可以是邮件、私信、或产品公告。
+客观陈述价值，不做夸张承诺，不制造紧迫感。
+
+长度：3-5 句话。`;
+
+    case "silence_reactivate":
+      return `${common}
+
+【产物定义：重新触达开场】
+用户要重新激活一个已沉默的渠道。
+请写一条重新触达的问候或开场。
+不道歉、不解释、不卑不亢，直接给一个继续对话的理由。
+
+长度：2-3 句话。`;
+
+    case "depth_deepen":
+      return `${common}
+
+【产物定义：渠道发布内容】
+用户要在该渠道发布一条新内容。
+请写一段可以直接发布的内容——帖子、评论、或短分享。
+围绕已有信号的主题延伸，不重复已有信息。
+
+长度：3-6 句话。`;
+
+    default:
+      return `${common}
+
+【产物定义：通用草稿】
+请写一段用户可以直接使用的文本，围绕卡片的建议动作展开。
+
+长度：2-5 句话。`;
+  }
+}
+
+export async function draftActionCard(
+  args: DraftActionCardArgs
+): Promise<string> {
+  const systemPrompt =
+    buildActionCardSystemPrompt(args.cardType) + languageDirective();
+
+  const userPrompt = `## 卡片
+标题：${args.cardTitle}
+建议：${args.cardBody}
+
+## 相关信号（用户自己记录的）
+${args.signalsContext || "（无）"}
+
+请直接输出用户可以使用的那段文字。`;
+
+  const messages: AiMessage[] = [
+    { role: "system", content: systemPrompt },
+    { role: "user", content: userPrompt },
+  ];
+
+  const handle = streamChat(
+    {
+      messages,
+      purpose: "action_card_draft",
+      projectId: null,
+      apiBase: args.settings.api_base,
+      apiKey: args.settings.api_key,
+      model: args.settings.model,
+      temperature: args.settings.temperature,
+    },
+    { onDelta: args.onDelta }
+  );
+
+  return handle.promise;
+}
+
+/* ---------------- 草稿点评（v1.1 冷启动 - 镜像模式） ---------------- */
+
+export interface ReviewDraftArgs {
+  draft: string;
+  context?: string;
+  settings: AiSettings;
+  onDelta?: (delta: string) => void;
+}
+
+export async function reviewDraft(args: ReviewDraftArgs): Promise<string> {
+  const systemPrompt = `你是一个懂内容但不创作内容的人。
+
+【任务】
+用户写了一段准备发到社交平台的内容。你**只给一条建议**。
+
+【硬性规则】
+1. 只给一条。不是三条，不是五条。
+2. 不超过 30 个字。
+3. 不重写用户的内容，不给示范。
+4. 指出的是可以改进的方向，不是错误。
+5. 如果内容已经不错，就说"可以发了"。
+6. 不评价"好/不好"，只说"可以试试 X"。
+
+【反面例子，不要这样】
+❌ "整体不错，但建议加强开头的吸引力，可以试试用问句…"
+❌ "开头太笼统，应该具体说明问题"
+❌ "这段话可以优化为：xxx"
+
+【正面例子】
+✅ "开头那个数字，再具体一点会更抓人。"
+✅ "结尾可以加一句你想让他们做什么。"
+✅ "可以发了。"`;
+
+  const userPrompt = `用户写的内容：
+
+${args.draft}
+
+${args.context ? `背景：${args.context}` : ""}
+
+给一条建议。`;
+
+  const messages: AiMessage[] = [
+    { role: "system", content: systemPrompt + languageDirective() },
+    { role: "user", content: userPrompt },
+  ];
+
+  const handle = streamChat(
+    {
+      messages,
+      purpose: "cold_start_review",
+      projectId: null,
+      apiBase: args.settings.api_base,
+      apiKey: args.settings.api_key,
+      model: args.settings.model,
+      temperature: 0.5,
+    },
+    { onDelta: args.onDelta }
+  );
+
+  return handle.promise;
+}
+
+/* ---------------- 冷启动反馈（AI 打分 + 认可 + 方向） ---------------- */
+
+export interface RateDraftArgs {
+  draft: string;
+  projectName: string;
+  projectContext?: string;
+  settings: AiSettings;
+  onDelta?: (delta: string) => void;
+}
+
+export interface RateDraftResult {
+  score: number;
+  recognition: string;
+  direction: string;
+}
+
+export async function rateDraft(args: RateDraftArgs): Promise<RateDraftResult> {
+  const systemPrompt = `你是一个读过很多独立开发者发布内容的人。
+
+【任务】
+用户刚写完一段准备发布的内容。你认真读完，给出三样东西：
+1. score：一个 1-5 的整数
+2. recognition：一句话，说清"我看到了什么"
+3. direction：一句话，说清"你可以试试"
+
+【recognition 的唯一来源】
+只能从「用户写的内容」里读。
+不许引用任何不在草稿里出现过的信息。
+如果说不出用户草稿里实际出现过的词或句，就返回空字符串。
+
+【打分标准，只给你自己看】
+5 = 有具体场景、有细节、读起来像真的有人在做东西
+4 = 具体，但有一两个地方可以更实
+3 = 方向对，但还很笼统
+2 = 更多是"介绍产品"，不是"分享在做的事"
+1 = 完全是空话、模板、或只有几个字的敷衍
+
+【硬性规则】
+- score 必须是 1-5 的整数
+- recognition 不超过 40 字
+- direction 不超过 40 字，必须是可执行的动作
+- 低分不要打击用户，高分不要吹捧
+- 不用"您"、"亲"、"小伙伴"
+
+【输出格式，严格 JSON】
+{"score": 4, "recognition": "...", "direction": "..."}
+
+只输出 JSON，不要解释、不要 markdown 代码块标记。`;
+
+  const userPrompt = `【项目名称】
+${args.projectName}
+
+【用户写的内容（唯一评分和 recognition 依据）】
+${args.draft}
+
+【项目背景（仅供理解，不要在 recognition 里引用）】
+${args.projectContext || "（无）"}
+
+按格式返回 JSON。`;
+
+  const messages: AiMessage[] = [
+    { role: "system", content: systemPrompt + languageDirective() },
+    { role: "user", content: userPrompt },
+  ];
+
+  const handle = streamChat(
+    {
+      messages,
+      purpose: "cold_start_rate",
+      projectId: null,
+      apiBase: args.settings.api_base,
+      apiKey: args.settings.api_key,
+      model: args.settings.model,
+      temperature: 0.3,
+    },
+    { onDelta: args.onDelta }
+  );
+
+  const TIMEOUT_MS = 15000;
+  const timer = setTimeout(() => {
+    void handle.cancel();
+  }, TIMEOUT_MS);
+
+  try {
+    const raw = await handle.promise;
+    clearTimeout(timer);
+
+    const parsed = extractJson(raw);
+    if (!parsed) {
+      return { score: 3, recognition: "", direction: "" };
+    }
+
+    const score = Number(parsed.score);
+    return {
+      score: Number.isFinite(score)
+        ? Math.max(1, Math.min(5, Math.round(score)))
+        : 3,
+      recognition:
+        typeof parsed.recognition === "string" ? parsed.recognition : "",
+      direction: typeof parsed.direction === "string" ? parsed.direction : "",
+    };
+  } catch (e) {
+    clearTimeout(timer);
+    console.error("[rateDraft] error:", e);
+    return { score: 3, recognition: "", direction: "" };
   }
 }

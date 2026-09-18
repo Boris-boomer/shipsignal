@@ -240,3 +240,87 @@ export interface BackupData {
   lessons: Lesson[];
   decision_logs: DecisionLog[];
 }
+
+/* ---------------- v1.1 引导层 ---------------- */
+
+export type ActionCardStatus = "pending" | "done" | "skipped" | "replaced";
+
+export interface ActionCard {
+  id: string;
+  project_id: string;
+  card_type: string;
+  title: string;
+  body: string | null;
+  draft: string | null;
+  source_signals: string; // JSON array of signal ids
+  status: ActionCardStatus;
+  created_at: string;
+  acted_at: string | null;
+}
+
+export type PatternType =
+  | "channel_depth"
+  | "signal_burst"
+  | "signal_silence"
+  | "payment_precursor";
+
+export interface SignalPattern {
+  id: string;
+  project_id: string;
+  pattern_type: PatternType;
+  payload: string; // JSON
+  computed_at: string;
+}
+
+/* ---- 各 pattern_type 的 payload 结构 ---- */
+
+export interface ChannelDepthPayload {
+  channel: string;
+  depth: "shallow" | "deep";
+  signal_count: number;
+  has_payment: boolean;
+}
+
+export interface SignalBurstPayload {
+  channel: string;
+  count: number;
+  spike_ratio: number;
+}
+
+export interface SignalSilencePayload {
+  channel: string;
+  days_silent: number;
+  last_signal_at: string;
+}
+
+export interface PaymentPrecursorPayload {
+  precursor_types: string[];
+  confidence: number;
+  sample_size: number;
+}
+
+/* ---------------- v1.1 冷启动 ---------------- */
+
+export type ColdStartMood = "confident" | "ok" | "unsure" | "retry";
+
+export type ColdStartTrack =
+  | "efficiency"
+  | "ai_tool"
+  | "dev_tool"
+  | "content"
+  | "learning"
+  | "lifestyle"
+  | "monetization"
+  | "other";
+
+export interface ColdStartAttempt {
+  id: string;
+  project_id: string;
+  track: string | null;
+  pain: string | null;
+  action: string | null;
+  draft: string | null;
+  mood: string | null;
+  published: number;
+  created_at: string;
+}

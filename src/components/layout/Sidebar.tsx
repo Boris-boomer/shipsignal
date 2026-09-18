@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
+  Sun,
   LayoutDashboard,
   FolderKanban,
   Bot,
@@ -11,12 +12,33 @@ import {
 import { cn } from "@/lib/utils";
 
 const items = [
-  { to: "/", labelKey: "nav.dashboard", icon: LayoutDashboard, end: true },
-  { to: "/onboarding", labelKey: "nav.onboarding", icon: Sparkles, end: false },
-  { to: "/portfolio", labelKey: "nav.portfolio", icon: FolderKanban, end: false },
+  { to: "/", labelKey: "nav.today", icon: Sun, end: true },
+  {
+    to: "/dashboard",
+    labelKey: "nav.dashboard",
+    icon: LayoutDashboard,
+    end: false,
+  },
+  {
+    to: "/onboarding",
+    labelKey: "nav.onboarding",
+    icon: Sparkles,
+    end: false,
+  },
+  {
+    to: "/portfolio",
+    labelKey: "nav.portfolio",
+    icon: FolderKanban,
+    end: false,
+  },
   { to: "/harbor", labelKey: "nav.harbor", icon: Anchor, end: false },
   { to: "/ai", labelKey: "nav.ai", icon: Bot, end: false },
-  { to: "/settings", labelKey: "nav.settings", icon: SettingsIcon, end: false },
+  {
+    to: "/settings",
+    labelKey: "nav.settings",
+    icon: SettingsIcon,
+    end: false,
+  },
 ];
 
 export function Sidebar() {

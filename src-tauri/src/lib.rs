@@ -30,6 +30,18 @@ pub fn run() {
             sql: include_str!("../migrations/003_sunset_conditions.sql"),
             kind: MigrationKind::Up,
         },
+        Migration {
+            version: 4,
+            description: "action_cards",
+            sql: include_str!("../migrations/004_action_cards.sql"),
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 5,
+            description: "cold_start",
+            sql: include_str!("../migrations/005_cold_start.sql"),
+            kind: MigrationKind::Up,
+        },
     ];
 
     tauri::Builder::default()

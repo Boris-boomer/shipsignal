@@ -16,6 +16,9 @@ import type {
   DataSourceProvider,
   DataSourceStatus,
   BackupData,
+  SignalPattern,
+  ActionCard,
+  ActionCardStatus,
 } from "./types";
 import { assessSignal } from "./credibility";
 import { nowIso, uuid } from "./utils";
@@ -166,6 +169,9 @@ export async function deleteProject(id: string): Promise<void> {
     "UPDATE ai_interactions SET project_id = NULL WHERE project_id = $1",
     [id]
   );
+  // v1.1 引导层子表
+  await db.execute("DELETE FROM action_cards WHERE project_id = $1", [id]);
+  await db.execute("DELETE FROM signal_patterns WHERE project_id = $1", [id]);
   await db.execute("DELETE FROM projects WHERE id = $1", [id]);
 }
 
@@ -735,7 +741,7 @@ export async function dumpAllData(): Promise<BackupData> {
   return {
     version: 1,
     exported_at: nowIso(),
-    app_version: "0.1.0",
+    app_version: "1.1.0",
     projects,
     signals,
     conversions,
@@ -1070,4 +1076,117 @@ export async function globalSearch(
     snippet: r.snippet,
     created_at: r.created_at,
   }));
+}
+
+/* ---------------- Signal Patterns (v1.1) ---------------- */
+
+export async function listSignalPatterns(
+  projectId: string
+): Promise<SignalPattern[]> {
+  const db = await getDb();
+  return db.select<SignalPattern[]>(
+    "SELECT * FROM signal_patterns WHERE project_id = $1 ORDER BY computed_at DESC, pattern_type ASC",
+    [projectId]
+  );
+}
+
+export async function replaceSignalPatterns(
+  projectId: string,
+  rows: SignalPattern[]
+): Promise<void> {
+  const db = await getDb();
+  await db.execute("DELETE FROM signal_patterns WHERE project_id = $1", [
+    projectId,
+  ]);
+  for (const r of rows) {
+    await db.execute(
+      `INSERT INTO signal_patterns (id, project_id, pattern_type, payload, computed_at)
+       VALUES ($1,$2,$3,$4,$5)`,
+      [r.id, r.project_id, r.pattern_type, r.payload, r.computed_at]
+    );
+  }
+}
+
+/* ---------------- Action Cards (v1.1) ---------------- */
+
+export async function listActionCards(
+  projectId: string
+): Promise<ActionCard[]> {
+  const db = await getDb();
+  return db.select<ActionCard[]>(
+    "SELECT * FROM action_cards WHERE project_id = $1 ORDER BY created_at DESC",
+    [projectId]
+  );
+}
+
+export async function getActionCard(id: string): Promise<ActionCard | null> {
+  const db = await getDb();
+  const rows = await db.select<ActionCard[]>(
+    "SELECT * FROM action_cards WHERE id = $1 LIMIT 1",
+    [id]
+  );
+  return rows[0] ?? null;
+}
+
+export async function insertActionCard(input: {
+  project_id: string;
+  card_type: string;
+  title: string;
+  body?: string | null;
+  draft?: string | null;
+  source_signals?: string;
+}): Promise<ActionCard> {
+  const db = await getDb();
+  const id = uuid();
+  const now = nowIso();
+  const row: ActionCard = {
+    id,
+    project_id: input.project_id,
+    card_type: input.card_type,
+    title: input.title,
+    body: input.body ?? null,
+    draft: input.draft ?? null,
+    source_signals: input.source_signals ?? "[]",
+    status: "pending",
+    created_at: now,
+    acted_at: null,
+  };
+  await db.execute(
+    `INSERT INTO action_cards
+      (id, project_id, card_type, title, body, draft, source_signals, status, created_at, acted_at)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+    [
+      row.id,
+      row.project_id,
+      row.card_type,
+      row.title,
+      row.body,
+      row.draft,
+      row.source_signals,
+      row.status,
+      row.created_at,
+      row.acted_at,
+    ]
+  );
+  return row;
+}
+
+export async function updateActionCardStatus(
+  id: string,
+  status: ActionCardStatus,
+  actedAt: string | null
+): Promise<void> {
+  const db = await getDb();
+  await db.execute(
+    "UPDATE action_cards SET status=$1, acted_at=$2 WHERE id=$3",
+    [status, actedAt, id]
+  );
+}
+
+export async function updateActionCardDraft(
+  id: string,
+  draft: string | null
+): Promise<void> {
+  const db = await getDb();
+  await db.execute("UPDATE action_cards SET draft=$1 WHERE id=$2", [draft, id]);
 }

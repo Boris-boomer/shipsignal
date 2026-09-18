@@ -67,7 +67,7 @@ export function HarborPage() {
     return (
       <div className="mx-auto max-w-5xl space-y-4">
         <div>
-          <h2 className="text-xl font-semibold text-[var(--color-strong)]">Harbor</h2>
+          <h2 className="text-xl font-semibold text-[var(--color-strong)]">{t("harbor.title")}</h2>
           <p className="mt-1 text-sm text-[var(--color-muted)]">
             {t("harbor.subtitle")}
           </p>
@@ -83,7 +83,7 @@ export function HarborPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-[var(--color-strong)]">Harbor</h2>
+        <h2 className="text-xl font-semibold text-[var(--color-strong)]">{t("harbor.title")}</h2>
         <p className="mt-1 text-sm text-[var(--color-muted)]">
           {t("harbor.subtitle")}
         </p>

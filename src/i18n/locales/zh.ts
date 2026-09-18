@@ -29,7 +29,7 @@ export const zh = {
   "nav.harbor": "Harbor",
   "nav.ai": "AI 助手",
   "nav.settings": "设置",
-  "nav.footer": "v0.1.0 · 本地优先",
+  "nav.footer": "v1.1.0 · 数据在本地",
 
   // Topbar
   "topbar.search": "搜索",
@@ -152,7 +152,7 @@ export const zh = {
   "settings.export.flashBackupDone": "备份完成",
   "settings.export.flashRestoreDone": "恢复完成，已重新加载项目",
   "settings.about.title": "关于 ShipSignal",
-  "settings.about.version": "v0.1.0 · 本地优先 · 数据主权",
+  "settings.about.version": "v1.1.0 · 数据本地 · 你的机器，你的数据",
   "settings.about.feedback": "反馈 / 建议",
   "settings.about.supportQuestion": "这个小工具帮到你了？",
   "settings.about.supportHint": "点一下，让作者知道有人在用",
@@ -497,6 +497,7 @@ export const zh = {
   "history.footer.recent": "（显示最近 200 条）",
 
   // Harbor
+  "harbor.title": "Harbor",
   "harbor.subtitle": "已归档项目停靠的地方。归档不是失败，是把经历变成资产。",
   "harbor.empty.title": "Harbor 还是空的",
   "harbor.empty.description":
@@ -733,6 +734,80 @@ export const zh = {
   "search.kind.lesson": "学习",
   "search.kind.decision": "决策",
   "search.kind.conversion": "转化",
+
+  "nav.today": "今日",
+
+  "today.title": "今日建议",
+  "today.refresh": "刷新建议",
+  "today.refreshing": "计算中…",
+  "today.filter.all": "全部",
+  "today.done": "完成",
+  "today.skip": "跳过",
+  "today.replace": "换一个",
+  "today.draft.label": "草稿",
+  "today.draft.generate": "AI 起草",
+  "today.draft.generating": "生成中…",
+  "today.draft.noApiKey": "请先在「设置」里配置 AI API Key。",
+  "today.draft.placeholder": "写点什么，或留空…",
+  "today.empty.restartColdStart": "重新显示冷启动引导",
+  "today.empty.title": "今天没有建议",
+  "today.empty.hint": "去记录点信号吧，工具会从你的记录里给出下一步。",
+  "today.empty.cta": "去记录信号",
+
+
+
+  "coldStart.panel.title": "「{{name}}」还没有信号",
+  "coldStart.panel.attempts": "已尝试 {{n}} 次",
+  "coldStart.panel.dismiss": "暂时跳过",
+  "coldStart.panel.noApiKey": "请先在「设置」里配置 AI API Key。",
+  "coldStart.back": "返回",
+
+  "coldStart.menu.question": "你想怎么开始？",
+  "coldStart.menu.case.title": "看别人怎么写的",
+  "coldStart.menu.case.desc": "三条真实风格的发布案例，你自己照着改",
+  "coldStart.menu.quick.title": "一句话生成",
+  "coldStart.menu.quick.desc": "用一句话说你的产品，AI 出一段",
+  "coldStart.menu.mirror.title": "我写了，你帮我看看",
+  "coldStart.menu.mirror.desc": "AI 只给一条改进建议，不重写",
+
+  "coldStart.case.hint": "看别人怎么写的，然后写你自己的。",
+  "coldStart.case.refresh": "换一批",
+  "coldStart.case.writeYours": "现在轮到你写",
+  "coldStart.case.placeholder": "可以借鉴案例的结构，但用你自己的话。",
+
+  "coldStart.quick.hint": "一句话说清楚你的产品。",
+  "coldStart.quick.placeholder": "比如：帮开发者在项目里自动找图标",
+  "coldStart.quick.tip": "懒得想也没关系，直接点生成。",
+  "coldStart.quick.generate": "生成一版",
+  "coldStart.quick.regenerate": "换一版",
+
+  "coldStart.mirror.hint": "把你写好的内容粘进来。AI 只给一条建议，不改你的文字。",
+  "coldStart.mirror.placeholder": "粘贴或写下你的初稿…",
+  "coldStart.mirror.review": "帮我看看",
+  "coldStart.mirror.reviewing": "正在看…",
+
+  "coldStart.draft.label": "你的内容",
+  "coldStart.draft.writing": "正在写…",
+  "coldStart.draft.published": "我发出去了",
+  "coldStart.draft.empty": "AI 没返回内容。检查一下 API Key 和网络。",
+
+  "coldStart.publish.done": "发出去那一刻，就已经赢了。",
+
+  "coldStart.mood.question": "感觉怎么样？没有标准答案。",
+  "coldStart.mood.confident": "有信心，我觉得有戏",
+  "coldStart.mood.ok": "还行，发出去就行",
+  "coldStart.mood.unsure": "没底，不太确定",
+  "coldStart.mood.retry": "想再试一次，换个方式",
+
+  "coldStart.retry.again": "再试一次",
+  "coldStart.retry.done": "今天先到这",
+
+  "coldStart.feedback.reading": "我读一下…",
+  "coldStart.feedback.recognition": "我看到了",
+  "coldStart.feedback.direction": "你可以试试",
+  "coldStart.feedback.timeout": "AI 15 秒没回应。检查一下 API Key 和网络。",
+  "coldStart.feedback.fallbackHint": "内容已经存下来了。你可以直接去发布，或者回菜单重试。",
+
 } as const;
 
 export type ZhKeys = keyof typeof zh;

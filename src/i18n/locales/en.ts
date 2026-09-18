@@ -31,7 +31,7 @@ export const en: Record<ZhKeys, string> = {
   "nav.harbor": "Harbor",
   "nav.ai": "AI Assistant",
   "nav.settings": "Settings",
-  "nav.footer": "v0.1.0 · Local-first",
+  "nav.footer": "v1.1.0 · Data stays local",
 
   // Topbar
   "topbar.search": "Search",
@@ -160,7 +160,7 @@ export const en: Record<ZhKeys, string> = {
   "settings.export.flashBackupDone": "Backup complete",
   "settings.export.flashRestoreDone": "Restore complete, projects reloaded",
   "settings.about.title": "About ShipSignal",
-  "settings.about.version": "v0.1.0 · Local-first · Data sovereignty",
+  "settings.about.version": "v1.1.0 · Local-first · Your data, your machine",
   "settings.about.feedback": "Feedback / Suggestions",
   "settings.about.supportQuestion": "Is this tool helpful?",
   "settings.about.supportHint": "Tap to let the author know someone's using it",
@@ -517,6 +517,7 @@ export const en: Record<ZhKeys, string> = {
   "history.footer.recent": " (last 200)",
 
   // Harbor
+  "harbor.title": "Harbor",
   "harbor.subtitle":
     "Where archived projects dock. Archiving isn't failure — it's turning experience into assets.",
   "harbor.empty.title": "Harbor is empty",
@@ -765,4 +766,77 @@ export const en: Record<ZhKeys, string> = {
   "search.kind.lesson": "Lesson",
   "search.kind.decision": "Decision",
   "search.kind.conversion": "Conversion",
+
+  "nav.today": "Today",
+
+  "today.title": "Today's suggestion",
+  "today.refresh": "Refresh",
+  "today.refreshing": "Computing…",
+  "today.filter.all": "All",
+  "today.done": "Done",
+  "today.skip": "Skip",
+  "today.replace": "Another",
+  "today.draft.label": "Draft",
+  "today.draft.generate": "AI draft",
+  "today.draft.generating": "Generating…",
+  "today.draft.noApiKey": "Please configure your AI API key in Settings first.",
+  "today.draft.placeholder": "Write something, or leave it empty…",
+  "today.empty.restartColdStart": "Show cold start guide again",
+  "today.empty.title": "No suggestion today",
+  "today.empty.hint": "Go record some signals — the tool will suggest next steps from your own data.",
+  "today.empty.cta": "Record signals",
+
+
+  "coldStart.panel.title": "「{{name}}」 has no signals yet",
+  "coldStart.panel.attempts": "{{n}} attempt(s)",
+  "coldStart.panel.dismiss": "Skip for now",
+  "coldStart.panel.noApiKey": "Please configure your AI API key in Settings first.",
+  "coldStart.back": "Back",
+
+  "coldStart.menu.question": "How do you want to start?",
+  "coldStart.menu.case.title": "See how others wrote it",
+  "coldStart.menu.case.desc": "Three real-style examples. Adapt one yourself",
+  "coldStart.menu.quick.title": "One-line generate",
+  "coldStart.menu.quick.desc": "Describe your product in one line, AI writes a draft",
+  "coldStart.menu.mirror.title": "I wrote it, you review",
+  "coldStart.menu.mirror.desc": "AI gives one suggestion. It won't rewrite",
+
+  "coldStart.case.hint": "See how others wrote it, then write your own.",
+  "coldStart.case.refresh": "Shuffle",
+  "coldStart.case.writeYours": "Now your turn",
+  "coldStart.case.placeholder": "Borrow the structure, use your own words.",
+
+  "coldStart.quick.hint": "Describe your product in one line.",
+  "coldStart.quick.placeholder": "e.g. helps devs find icons in projects",
+  "coldStart.quick.tip": "Don't feel like thinking? Just hit generate.",
+  "coldStart.quick.generate": "Generate",
+  "coldStart.quick.regenerate": "Regenerate",
+
+  "coldStart.mirror.hint": "Paste your draft. AI gives one suggestion, won't rewrite.",
+  "coldStart.mirror.placeholder": "Paste or write your draft…",
+  "coldStart.mirror.review": "Review it",
+  "coldStart.mirror.reviewing": "Reviewing…",
+
+  "coldStart.draft.label": "Your content",
+  "coldStart.draft.writing": "Writing…",
+  "coldStart.draft.published": "I posted it",
+  "coldStart.draft.empty": "AI didn't return content. Check API key and network.",
+
+  "coldStart.publish.done": "The moment you posted it, you already won.",
+
+  "coldStart.mood.question": "How does it feel? No right answer.",
+  "coldStart.mood.confident": "Confident",
+  "coldStart.mood.ok": "It's fine",
+  "coldStart.mood.unsure": "Not sure",
+  "coldStart.mood.retry": "Want to try again",
+
+  "coldStart.retry.again": "Try again",
+  "coldStart.retry.done": "That's enough for today",
+
+  "coldStart.feedback.reading": "Reading it…",
+  "coldStart.feedback.recognition": "What I saw",
+  "coldStart.feedback.direction": "Try this next",
+  "coldStart.feedback.timeout": "AI didn't respond in 15s. Check your API key and network.",
+  "coldStart.feedback.fallbackHint": "Your content is saved. You can post it directly or retry from the menu.",
+  
 };
