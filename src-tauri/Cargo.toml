@@ -1,6 +1,6 @@
 [package]
 name = "shipssignal"
-version = "1.1.0"
+version = "1.2.0"
 description = "ShipSignal desktop app"
 authors = ["you"]
 edition = "2021"
@@ -32,3 +32,4 @@ hmac = "0.12"
 sha2 = "0.10"
 md5 = "0.7"
 hex = "0.4"
+tauri-plugin-http = { version = "2", features = ["dangerous-settings"] }

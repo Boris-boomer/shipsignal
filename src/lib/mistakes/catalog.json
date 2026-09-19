@@ -1,0 +1,26 @@
+{
+  "build_without_distribute": {
+    "title": "只做了，还没发",
+    "reason": "你构建了 {buildHours} 小时，分发是 0。"
+  },
+  "build_distribute_unbalanced": {
+    "title": "构建时间有点长",
+    "reason": "构建 {buildHours} 小时，分发只有 {distributionHours} 小时。比例失衡。"
+  },
+  "no_signals_recently": {
+    "title": "记录停了",
+    "reason": "最近 7 天没有新信号。上次记录是 {daysSinceLastSignal} 天前。"
+  },
+  "many_channels_zero_conversion": {
+    "title": "渠道多，但没有转化",
+    "reason": "试了 {channelsWithSignals} 个渠道，记了 {signalCount} 条信号，还没有一笔付费。"
+  },
+  "signal_density_drop": {
+    "title": "信号密度掉下来了",
+    "reason": "前 7 天 {signalsPrevious7Days} 条，最近 7 天 {signalsLast7Days} 条。"
+  },
+  "no_payment_signal": {
+    "title": "还没有付费信号",
+    "reason": "做了 {daysSinceFirstSignal} 天，{signalCount} 条信号，0 付费。"
+  }
+}

@@ -7,12 +7,14 @@ import {
   Square,
   Loader2,
   Play,
+  RefreshCw,
 } from "lucide-react";
 import { Button, Field, Select, Tabs } from "@/components/ui";
 import { useAiStore, type ChatMessage } from "@/stores/aiStore";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { useProjectStore } from "@/stores/projectStore";
 import type { AiPurpose } from "@/lib/types";
+import { listOllamaModels } from "@/lib/embedding";
 import { HistoryPanel } from "./HistoryPanel";
 
 const PURPOSE_OPTIONS: { value: AiPurpose; labelKey: string }[] = [
@@ -107,8 +109,8 @@ function ChatPanel() {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-3">
-      <div className="flex items-center justify-between gap-3">
-        <div className="grid flex-1 grid-cols-2 gap-3">
+      <div className="flex items-start justify-between gap-3">
+        <div className="grid flex-1 grid-cols-3 gap-3">
           <Field label={t("ai.field.purpose")}>
             <Select
               value={purpose}
@@ -133,6 +135,9 @@ function ChatPanel() {
                 </option>
               ))}
             </Select>
+          </Field>
+          <Field label={t("ai.field.model")}>
+            <ModelSelector />
           </Field>
         </div>
         <Button
@@ -216,6 +221,101 @@ function ChatPanel() {
         )}
       </div>
     </div>
+  );
+}
+
+/* ---------------- 模型选择器 ---------------- */
+
+function ModelSelector() {
+  const ai = useSettingsStore((s) => s.ai);
+  const saveAi = useSettingsStore((s) => s.saveAi);
+  const [models, setModels] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const isOllama = /localhost:11434|127\.0\.0\.1:11434/.test(ai.api_base);
+
+  const loadModels = async () => {
+    if (!isOllama) return;
+    setLoading(true);
+    try {
+      const list = await listOllamaModels(ai.api_base);
+      setModels(list.map((m) => m.name));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void loadModels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOllama, ai.api_base]);
+
+  const handleChange = async (value: string) => {
+    await saveAi({ ...ai, model: value });
+  };
+
+  // Ollama：本地模型下拉
+  if (isOllama && models.length > 0) {
+    return (
+      <div className="flex gap-1">
+        <select
+          value={ai.model}
+          onChange={(e) => handleChange(e.target.value)}
+          className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-panel-2)] px-3 py-2 text-sm text-[var(--color-strong)] outline-none focus:border-[var(--color-accent)]"
+        >
+          {models.map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
+        <button
+          type="button"
+          onClick={loadModels}
+          disabled={loading}
+          className="shrink-0 rounded-md border border-[var(--color-border)] px-2 hover:bg-[var(--color-panel-2)] disabled:opacity-50"
+          title="刷新模型列表"
+        >
+          {loading ? (
+            <Loader2 size="0.875rem" className="animate-spin" />
+          ) : (
+            <RefreshCw size="0.875rem" />
+          )}
+        </button>
+      </div>
+    );
+  }
+
+  // Ollama 但没拉到模型：提示
+  if (isOllama && models.length === 0 && !loading) {
+    return (
+      <div className="flex gap-1">
+        <input
+          value={ai.model}
+          onChange={(e) => handleChange(e.target.value)}
+          placeholder="qwen3:8b"
+          className="flex-1 rounded-md border border-[var(--color-border)] bg-[var(--color-panel-2)] px-3 py-2 text-sm text-[var(--color-strong)] outline-none focus:border-[var(--color-accent)]"
+        />
+        <button
+          type="button"
+          onClick={loadModels}
+          className="shrink-0 rounded-md border border-[var(--color-border)] px-2 hover:bg-[var(--color-panel-2)]"
+          title="重新拉取"
+        >
+          <RefreshCw size="0.875rem" />
+        </button>
+      </div>
+    );
+  }
+
+  // 其他 provider：自由输入
+  return (
+    <input
+      value={ai.model}
+      onChange={(e) => handleChange(e.target.value)}
+      placeholder="model name"
+      className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-panel-2)] px-3 py-2 text-sm text-[var(--color-strong)] outline-none focus:border-[var(--color-accent)]"
+    />
   );
 }
 

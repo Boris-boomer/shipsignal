@@ -15,6 +15,8 @@ import {
 import { DatasourceSection } from "./DatasourceSection";
 import { ExportSection } from "./ExportSection";
 import { AboutSection } from "./AboutSection";
+import { FeedSection } from "./FeedSection";
+import { OllamaModelPicker } from "./OllamaModelPicker";
 
 const FONT_OPTIONS: {
   value: FontScale;
@@ -83,6 +85,7 @@ export function SettingsPage() {
     [draft.api_base]
   );
   const provider = getProvider(providerId);
+  const isOllama = providerId === "ollama";
 
   function handleProviderChange(id: string) {
     if (id === CUSTOM_PROVIDER_ID) {
@@ -150,10 +153,23 @@ export function SettingsPage() {
             type="password"
             value={draft.api_key}
             onChange={(e) => setDraft({ ...draft, api_key: e.target.value })}
-            placeholder={t("settings.ai.apiKeyPlaceholder")}
+            placeholder={
+              isOllama
+                ? "随意填，比如 ollama"
+                : t("settings.ai.apiKeyPlaceholder")
+            }
             className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-panel-2)] px-3 py-2 text-sm text-[var(--color-strong)] focus:border-[var(--color-accent)]"
           />
         </div>
+
+        {/* Ollama：模型下拉放外面，最常用 */}
+        {isOllama && (
+          <OllamaModelPicker
+            base={draft.api_base}
+            value={draft.model}
+            onChange={(m) => setDraft({ ...draft, model: m })}
+          />
+        )}
 
         <div>
           <button
@@ -183,18 +199,22 @@ export function SettingsPage() {
                   className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-panel-2)] px-3 py-2 text-sm text-[var(--color-strong)] focus:border-[var(--color-accent)]"
                 />
               </div>
-              <div>
-                <label className="mb-1 block text-xs text-[var(--color-muted)]">
-                  {t("settings.ai.model")}
-                </label>
-                <input
-                  value={draft.model}
-                  onChange={(e) =>
-                    setDraft({ ...draft, model: e.target.value })
-                  }
-                  className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-panel-2)] px-3 py-2 text-sm text-[var(--color-strong)] focus:border-[var(--color-accent)]"
-                />
-              </div>
+
+              {!isOllama && (
+                <div>
+                  <label className="mb-1 block text-xs text-[var(--color-muted)]">
+                    {t("settings.ai.model")}
+                  </label>
+                  <input
+                    value={draft.model}
+                    onChange={(e) =>
+                      setDraft({ ...draft, model: e.target.value })
+                    }
+                    className="w-full rounded-md border border-[var(--color-border)] bg-[var(--color-panel-2)] px-3 py-2 text-sm text-[var(--color-strong)] focus:border-[var(--color-accent)]"
+                  />
+                </div>
+              )}
+
               <div>
                 <label className="mb-1 block text-xs text-[var(--color-muted)]">
                   {t("settings.ai.temperature")}
@@ -322,6 +342,8 @@ export function SettingsPage() {
       </section>
 
       <DatasourceSection />
+
+      <FeedSection />
 
       <ExportSection />
 

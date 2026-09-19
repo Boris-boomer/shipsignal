@@ -80,6 +80,9 @@ export const en: Record<ZhKeys, string> = {
   "settings.provider.dashscope.name": "Qwen (Tongyi)",
   "settings.provider.dashscope.hint":
     "Create an API Key at dashscope.console.aliyun.com",
+  "settings.provider.ollama.name": "Ollama (Local)",
+  "settings.provider.ollama.hint":
+    "Run Ollama locally at http://localhost:11434/v1. API Key can be anything.",
   "settings.provider.custom.name": "Custom (OpenAI-compatible)",
   "settings.provider.custom.hint":
     "Enter your own OpenAI-compatible endpoint. Include a version prefix like /v1; do not append /chat/completions.",
@@ -483,6 +486,7 @@ export const en: Record<ZhKeys, string> = {
   "ai.field.purpose": "Purpose",
   "ai.field.project": "Related project (optional)",
   "ai.field.project.none": "(None)",
+  "ai.field.model": "Model",
   "ai.clear": "Clear chat",
   "ai.noApiKey":
     "API Key not configured. Go to Settings to set API Base, Model, and API Key.",

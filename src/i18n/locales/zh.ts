@@ -75,6 +75,9 @@ export const zh = {
   "settings.provider.dashscope.name": "通义千问",
   "settings.provider.dashscope.hint":
     "在 dashscope.console.aliyun.com 创建 API Key",
+  "settings.provider.ollama.name": "Ollama（本地）",
+  "settings.provider.ollama.hint":
+    "本地运行 Ollama，默认地址 http://localhost:11434/v1。API Key 随意填。",
   "settings.provider.custom.name": "自定义（OpenAI 兼容）",
   "settings.provider.custom.hint":
     "填你自己的 OpenAI 兼容端点，需包含 /v1 之类的版本前缀，末尾不要带 /chat/completions",
@@ -466,6 +469,7 @@ export const zh = {
   "ai.field.purpose": "用途",
   "ai.field.project": "关联项目（可选）",
   "ai.field.project.none": "（不关联）",
+  "ai.field.model": "模型",
   "ai.clear": "清空对话",
   "ai.noApiKey":
     "尚未配置 API Key。请前往「设置」填写 API Base、Model 和 API Key。",

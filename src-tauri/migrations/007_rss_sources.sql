@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS rss_sources (
+  id TEXT PRIMARY KEY,
+  url TEXT NOT NULL UNIQUE,
+  label TEXT NOT NULL,
+  enabled INTEGER DEFAULT 1,
+  created_at TEXT NOT NULL
+);

@@ -10,6 +10,7 @@ import { DecisionsPanel } from "./DecisionsPanel";
 import { ConversionsPanel } from "./ConversionsPanel";
 import { LessonsPanel } from "./LessonsPanel";
 import { ArchiveReview } from "./ArchiveReview";
+import { ShareButton } from "./ShareButton";
 import { useSignalStore } from "@/stores/signalStore";
 import { useDecisionStore } from "@/stores/decisionStore";
 import { useConversionStore } from "@/stores/conversionStore";
@@ -106,7 +107,9 @@ export function ProjectDetailPage() {
     <div className="mx-auto max-w-5xl space-y-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl font-semibold text-[var(--color-strong)]">{current.name}</h2>
+          <h2 className="text-xl font-semibold text-[var(--color-strong)]">
+            {current.name}
+          </h2>
           <div className="mt-1 flex items-center gap-2 text-xs text-[var(--color-muted)]">
             <Badge tone="accent">
               {modeKey ? t(modeKey) : current.mode}
@@ -121,14 +124,17 @@ export function ProjectDetailPage() {
             )}
           </div>
         </div>
-        <Button
-          variant="danger"
-          size="sm"
-          onClick={() => setConfirmOpen(true)}
-        >
-          <Trash2 size="0.75rem" className="mr-1" />
-          {t("project.delete")}
-        </Button>
+        <div className="flex items-center gap-2">
+          <ShareButton projectId={current.id} />
+          <Button
+            variant="danger"
+            size="sm"
+            onClick={() => setConfirmOpen(true)}
+          >
+            <Trash2 size="0.75rem" className="mr-1" />
+            {t("project.delete")}
+          </Button>
+        </div>
       </div>
 
       <Tabs<Tab>
@@ -186,8 +192,6 @@ export function ProjectDetailPage() {
     </div>
   );
 }
-
-/* ---------------- 删除确认弹窗 ---------------- */
 
 function DeleteConfirmModal({
   projectName,
@@ -250,7 +254,9 @@ function DeleteConfirmModal({
         <div>
           <label className="mb-1 block text-[0.6rem] text-[var(--color-muted)]">
             {t("project.deleteModal.confirmLabelPrefix")}{" "}
-            <span className="font-mono text-[var(--color-strong)]">{projectName}</span>{" "}
+            <span className="font-mono text-[var(--color-strong)]">
+              {projectName}
+            </span>{" "}
             {t("project.deleteModal.confirmLabelSuffix")}
           </label>
           <input

@@ -168,6 +168,8 @@ export async function deleteProject(id: string): Promise<void> {
   );
   await db.execute("DELETE FROM action_cards WHERE project_id = $1", [id]);
   await db.execute("DELETE FROM signal_patterns WHERE project_id = $1", [id]);
+  await db.execute("DELETE FROM feed_keywords WHERE project_id = $1", [id]);
+  await db.execute("DELETE FROM feeds WHERE project_id = $1", [id]);
   await db.execute("DELETE FROM projects WHERE id = $1", [id]);
 }
 
@@ -737,7 +739,7 @@ export async function dumpAllData(): Promise<BackupData> {
   return {
     version: 1,
     exported_at: nowIso(),
-    app_version: "1.1.0",
+    app_version: "1.2.0",
     projects,
     signals,
     conversions,
@@ -749,15 +751,14 @@ export async function dumpAllData(): Promise<BackupData> {
 export async function restoreAllData(data: BackupData): Promise<void> {
   const db = await getDb();
 
-  // v1.1 引导层：先删子表，否则 FK 会挡住 projects 的删除
   await db.execute("DELETE FROM action_cards");
   await db.execute("DELETE FROM signal_patterns");
   await db.execute("DELETE FROM cold_start_attempts");
+  await db.execute("DELETE FROM feed_keywords");
+  await db.execute("DELETE FROM feeds");
 
-  // ai_interactions 是 ON DELETE SET NULL，先手动置空
   await db.execute("UPDATE ai_interactions SET project_id = NULL");
 
-  // 核心表
   await db.execute("DELETE FROM decision_logs");
   await db.execute("DELETE FROM lessons");
   await db.execute("DELETE FROM conversions");
@@ -1208,4 +1209,172 @@ export async function listAllConversions(): Promise<Conversion[]> {
   return db.select<Conversion[]>(
     "SELECT * FROM conversions ORDER BY created_at ASC"
   );
+}
+
+/* ---------------- Feeds (v1.2) ---------------- */
+
+export interface FeedItem {
+  id: string;
+  source: string;
+  title: string;
+  url: string;
+  summary: string | null;
+  score: number;
+  matched_keywords: string;
+  fetched_at: string;
+  read_at: string | null;
+  starred: number;
+  project_id: string | null;
+}
+
+export async function listFeeds(
+  projectId: string | null,
+  limit = 50
+): Promise<FeedItem[]> {
+  const db = await getDb();
+  if (projectId) {
+    return db.select<FeedItem[]>(
+      "SELECT * FROM feeds WHERE project_id = $1 ORDER BY score DESC, fetched_at DESC LIMIT $2",
+      [projectId, limit]
+    );
+  }
+  return db.select<FeedItem[]>(
+    "SELECT * FROM feeds WHERE project_id IS NULL ORDER BY score DESC, fetched_at DESC LIMIT $1",
+    [limit]
+  );
+}
+
+export async function insertFeed(item: {
+  id: string;
+  source: string;
+  title: string;
+  url: string;
+  summary?: string | null;
+  score?: number;
+  matched_keywords?: string[];
+  project_id: string;
+}): Promise<void> {
+  const db = await getDb();
+  await db.execute(
+    `INSERT INTO feeds (id, source, title, url, summary, score, matched_keywords, fetched_at, project_id)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+     ON CONFLICT(id) DO NOTHING`,
+    [
+      item.id,
+      item.source,
+      item.title,
+      item.url,
+      item.summary ?? null,
+      item.score ?? 0,
+      JSON.stringify(item.matched_keywords ?? []),
+      nowIso(),
+      item.project_id,
+    ]
+  );
+}
+
+export async function markFeedRead(id: string): Promise<void> {
+  const db = await getDb();
+  await db.execute("UPDATE feeds SET read_at = $1 WHERE id = $2", [
+    nowIso(),
+    id,
+  ]);
+}
+
+export async function starFeed(id: string, starred: boolean): Promise<void> {
+  const db = await getDb();
+  await db.execute("UPDATE feeds SET starred = $1 WHERE id = $2", [
+    starred ? 1 : 0,
+    id,
+  ]);
+}
+
+export async function listFeedKeywords(
+  projectId: string
+): Promise<{ id: string; keyword: string; weight: number }[]> {
+  const db = await getDb();
+  return db.select(
+    "SELECT id, keyword, weight FROM feed_keywords WHERE project_id = $1 ORDER BY weight DESC",
+    [projectId]
+  );
+}
+
+export async function upsertFeedKeyword(
+  projectId: string,
+  keyword: string,
+  weight: number = 1
+): Promise<void> {
+  const db = await getDb();
+  const id = uuid();
+  await db.execute(
+    `INSERT INTO feed_keywords (id, project_id, keyword, weight, created_at)
+     VALUES ($1,$2,$3,$4,$5)
+     ON CONFLICT(project_id, keyword) DO UPDATE SET weight = weight + 1`,
+    [id, projectId, keyword, weight, nowIso()]
+  );
+}
+
+export async function deleteFeedKeyword(
+  projectId: string,
+  keyword: string
+): Promise<void> {
+  const db = await getDb();
+  await db.execute(
+    "DELETE FROM feed_keywords WHERE project_id = $1 AND keyword = $2",
+    [projectId, keyword]
+  );
+}
+
+export async function clearAllFeeds(): Promise<void> {
+  const db = await getDb();
+  await db.execute("DELETE FROM feeds");
+}
+
+/* ---------------- RSS Sources (v1.2) ---------------- */
+
+export interface RssSource {
+  id: string;
+  url: string;
+  label: string;
+  enabled: number;
+  created_at: string;
+}
+
+export async function listRssSources(): Promise<RssSource[]> {
+  const db = await getDb();
+  return db.select<RssSource[]>(
+    "SELECT * FROM rss_sources ORDER BY created_at ASC"
+  );
+}
+
+export async function addRssSource(
+  url: string,
+  label: string
+): Promise<RssSource> {
+  const db = await getDb();
+  const id = uuid();
+  const now = nowIso();
+  await db.execute(
+    `INSERT INTO rss_sources (id, url, label, enabled, created_at)
+     VALUES ($1,$2,$3,1,$4)
+     ON CONFLICT(url) DO NOTHING`,
+    [id, url, label, now]
+  );
+  return { id, url, label, enabled: 1, created_at: now };
+}
+
+export async function deleteRssSource(id: string): Promise<void> {
+  const db = await getDb();
+  await db.execute("DELETE FROM rss_sources WHERE id = $1", [id]);
+}
+
+export async function setRssSourceEnabled(
+  id: string,
+  enabled: boolean
+): Promise<void> {
+  const db = await getDb();
+  await db.execute("UPDATE rss_sources SET enabled = $1 WHERE id = $2", [
+    enabled ? 1 : 0,
+    id,
+  ]);
 }

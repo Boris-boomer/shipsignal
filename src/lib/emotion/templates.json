@@ -1,0 +1,93 @@
+{
+  "channel_revisit": [
+    {
+      "id": "revisit_1",
+      "title": "{channel}，你回来过",
+      "body": "这个渠道你 {daysAgo} 天前来过一次。\n当时记了 {lastSignalCount} 条信号，后来停在了某个地方。\n{newDetail}\n要不要再看看？不一定要做什么。"
+    },
+    {
+      "id": "revisit_2",
+      "title": "又见面了，{channel}",
+      "body": "{daysAgo} 天前你在这里留过信号。\n这次又来了。\n{newDetail}\n也许可以再看一眼。"
+    }
+  ],
+
+  "channel_silence": [
+    {
+      "id": "silence_1",
+      "title": "{channel} 安静了一阵",
+      "body": "{channel}这里，{daysAgo} 天没声音了。\n不是坏事。\n你上次有反馈的地方，也不是这里。\n我只是提醒你一下：它还在，还没关。"
+    },
+    {
+      "id": "silence_2",
+      "title": "{channel}，这几天有点静",
+      "body": "{daysAgo} 天没有新信号了。\n不用急着做什么。\n只是跟你说一声，它还在那。"
+    }
+  ],
+
+  "payment_precursor": [
+    {
+      "id": "precursor_1",
+      "title": "有人问到钱了",
+      "body": "{newDetail}\n这类事之后，值得留意。\n这次可能是又一次。"
+    }
+  ],
+
+  "signal_burst": [
+    {
+      "id": "burst_1",
+      "title": "{channel}最近热闹起来了",
+      "body": "短短几天，这里来了 {signalCount} 条信号。\n你上次这么密集记录，后来发生了点什么。\n这次值得再看一眼。"
+    }
+  ],
+
+  "first_signal": [
+    {
+      "id": "first_1",
+      "title": "第一条，记下来了",
+      "body": "别急着看它有没有用。\n这周记的，下周就能用上。\n那时候你会想「我当初为什么做这个决定」，这条记录会告诉你。"
+    }
+  ],
+
+  "action_done": [
+    {
+      "id": "done_1",
+      "title": "做完了",
+      "body": "不管效果怎么样，你做了。\n这一步，比昨天多了一点。"
+    },
+    {
+      "id": "done_2",
+      "title": "记下了",
+      "body": "行动完成。\n过几天回来看一眼，可能有点意思。"
+    }
+  ],
+
+  "mistake_warning": [
+    {
+      "id": "mistake_1",
+      "title": "{mistakeTitle}",
+      "body": "{mistakeReason}\n不是说不能做。\n只是提醒一下——你上次也是这么想的。"
+    }
+  ],
+
+  "review_due": [
+    {
+      "id": "review_1",
+      "title": "上周那个决定，可以看看了",
+      "body": "你当时的想法是：{decisionBasis}。\n这几天又有新信号进来了。\n要不要看看当初的判断对不对？"
+    }
+  ],
+
+  "feed_greeting": [
+    {
+      "id": "feed_1",
+      "title": "早",
+      "body": "今天有 {feedCount} 条跟你相关的。\n第一条最值得看。"
+    },
+    {
+      "id": "feed_2",
+      "title": "外面有动静",
+      "body": "替你看了 {feedCount} 条，\n挑了跟你相关的。"
+    }
+  ]
+}

@@ -8,17 +8,27 @@ import {
   FolderOpen,
   Sparkles,
   Loader2,
+  ChevronDown,
+  ChevronRight,
 } from "lucide-react";
 import type { ActionCard, AiSettings } from "@/lib/types";
 import { listSignals, updateActionCardDraft } from "@/lib/db";
 import { draftActionCard } from "@/lib/ai";
+import { traceActionCard, type TracedSource } from "@/lib/traceability";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { cn } from "@/lib/utils";
+import { RelatedHistory } from "./RelatedHistory";
+
+interface EmotionOverride {
+  title: string;
+  body: string;
+}
 
 interface Props {
   card: ActionCard;
   projectName: string;
   projectId: string;
+  emotion?: EmotionOverride;
   onDone: () => void;
   onSkip: () => void;
   onReplace: () => void;
@@ -29,6 +39,7 @@ export function ActionCardView({
   card,
   projectName,
   projectId,
+  emotion,
   onDone,
   onSkip,
   onReplace,
@@ -38,6 +49,8 @@ export function ActionCardView({
   const [draft, setDraft] = useState(card.draft ?? "");
   const [busy, setBusy] = useState(false);
   const [drafting, setDrafting] = useState(false);
+  const [traced, setTraced] = useState<TracedSource[] | null>(null);
+  const [showTrace, setShowTrace] = useState(false);
 
   const aiSettings = useSettingsStore(
     (s) => (s as unknown as { ai?: AiSettings }).ai
@@ -45,6 +58,8 @@ export function ActionCardView({
 
   useEffect(() => {
     setDraft(card.draft ?? "");
+    setTraced(null);
+    setShowTrace(false);
   }, [card.id, card.draft]);
 
   const wrap = async (fn: () => void | Promise<void>) => {
@@ -61,6 +76,14 @@ export function ActionCardView({
     if ((card.draft ?? "") !== draft) {
       onDraftChange(draft);
     }
+  };
+
+  const handleToggleTrace = async () => {
+    if (!showTrace && traced === null) {
+      const list = await traceActionCard(card.id);
+      setTraced(list);
+    }
+    setShowTrace((v) => !v);
   };
 
   const handleDraft = async () => {
@@ -112,9 +135,12 @@ export function ActionCardView({
     }
   };
 
+  const displayTitle = emotion?.title || card.title;
+  const displayBody = emotion?.body || card.body;
+  const ragQuery = `${displayTitle} ${displayBody ?? ""}`;
+
   return (
     <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-panel)] p-5">
-      {/* 项目徽章 */}
       <div className="mb-3 flex items-center gap-2 text-xs">
         <Link
           to={`/project/${projectId}`}
@@ -126,19 +152,53 @@ export function ActionCardView({
         <span className="text-[var(--color-muted)]">· {t("today.title")}</span>
       </div>
 
-      {/* 标题 */}
       <h2 className="mb-2 text-base font-semibold text-[var(--color-strong)]">
-        {card.title}
+        {displayTitle}
       </h2>
 
-      {/* 正文 */}
-      {card.body && (
-        <p className="mb-4 text-sm leading-relaxed text-[var(--color-muted)]">
-          {card.body}
+      {displayBody && (
+        <p className="mb-2 whitespace-pre-line text-sm leading-relaxed text-[var(--color-muted)]">
+          {displayBody}
         </p>
       )}
 
-      {/* 草稿区头部 */}
+      <div className="mb-4">
+        <button
+          onClick={handleToggleTrace}
+          className="flex items-center gap-1 text-xs text-[var(--color-muted)] hover:text-[var(--color-strong)]"
+        >
+          {showTrace ? (
+            <ChevronDown className="h-3 w-3" />
+          ) : (
+            <ChevronRight className="h-3 w-3" />
+          )}
+          为什么这么说？
+        </button>
+
+        {showTrace && traced && (
+          <div className="mt-2 space-y-1.5 rounded-md border border-[var(--color-border)] bg-[var(--color-panel-2)] p-3">
+            {traced.length === 0 && (
+              <div className="text-xs text-[var(--color-muted)]">
+                没有可追溯的来源。
+              </div>
+            )}
+            {traced.map((tr) => (
+              <div key={tr.signal.id} className="text-xs leading-relaxed">
+                <span className="text-[var(--color-muted)]">
+                  {tr.signal.created_at.slice(0, 10)} ·{" "}
+                  {tr.signal.source ?? "未标注"}：
+                </span>
+                <span className="ml-1 text-[var(--color-strong)]">
+                  {tr.snippet}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <RelatedHistory projectId={projectId} query={ragQuery} />
+      </div>
+
       <div className="mb-1.5 flex items-center justify-between">
         <span className="text-xs text-[var(--color-muted)]">
           {t("today.draft.label")}
@@ -161,7 +221,6 @@ export function ActionCardView({
         </button>
       </div>
 
-      {/* 草稿框 */}
       <textarea
         value={draft}
         onChange={(e) => setDraft(e.target.value)}
@@ -177,7 +236,6 @@ export function ActionCardView({
         )}
       />
 
-      {/* 操作 */}
       <div className="flex items-center gap-2">
         <button
           onClick={() => wrap(onDone)}

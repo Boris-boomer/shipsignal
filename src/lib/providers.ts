@@ -45,6 +45,13 @@ export const AI_PROVIDERS: AiProvider[] = [
     hintKey: "settings.provider.dashscope.hint",
   },
   {
+    id: "ollama",
+    nameKey: "settings.provider.ollama.name",
+    api_base: "http://localhost:11434/v1",
+    default_model: "qwen3:8b",
+    hintKey: "settings.provider.ollama.hint",
+  },
+  {
     id: CUSTOM_PROVIDER_ID,
     nameKey: "settings.provider.custom.name",
     api_base: "",

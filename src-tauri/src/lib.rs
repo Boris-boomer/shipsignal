@@ -42,9 +42,28 @@ pub fn run() {
             sql: include_str!("../migrations/005_cold_start.sql"),
             kind: MigrationKind::Up,
         },
+        Migration {
+            version: 6,
+            description: "feeds",
+            sql: include_str!("../migrations/006_feeds.sql"),
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 7,
+            description: "rss_sources",
+            sql: include_str!("../migrations/007_rss_sources.sql"),
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 8,
+            description: "feeds_project",
+            sql: include_str!("../migrations/008_feeds_project.sql"),
+            kind: MigrationKind::Up,
+        },
     ];
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_http::init())
         .plugin(
             tauri_plugin_sql::Builder::default()
                 .add_migrations("sqlite:shipssignal.db", migrations)
@@ -119,24 +138,21 @@ pub fn run() {
             if let WindowEvent::CloseRequested { api, .. } = event {
                 let app = window.app_handle();
 
-                // 强制退出：走默认
                 if app.state::<ForceQuit>().0.load(Ordering::Relaxed) {
                     return;
                 }
 
                 let behavior = {
                     let state = app.state::<CloseBehaviorState>();
-                    let result = match state.0.lock() {
+                    let v = match state.0.lock() {
                         Ok(guard) => *guard,
                         Err(_) => CloseBehavior::Ask,
                     };
-                    result
+                    v
                 };
 
                 match behavior {
-                    CloseBehavior::Exit => {
-                        // 走默认关闭
-                    }
+                    CloseBehavior::Exit => {}
                     CloseBehavior::Tray => {
                         api.prevent_close();
                         let _ = window.hide();
